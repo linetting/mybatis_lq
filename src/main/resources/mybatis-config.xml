@@ -1,0 +1,14 @@
+<configuration>
+    <!--mybatis 数据环境配置-->
+    <environments default="dev">
+        <environment id="dev">
+            <!--配置数据源信息-->
+            <dataSource type="DBCP">
+                <property name ="db.password" value="123456"></property>
+                <property name ="db.driver" value="com.mysql.jdbc.Driver"></property>
+                <property name ="db.url" value="jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf-8"></property>
+                <property name ="db.username" value="root"></property>
+            </dataSource>
+        </environment>
+    </environments>
+</configuration>
