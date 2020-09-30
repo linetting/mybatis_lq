@@ -1,0 +1,15 @@
+<mapper namespace="test">
+    <select id="findUserById" parameterType="int" resultType="com.lq.mybatis.po.User" statementType="STATEMENT">
+        select * from users where id = #{id} and username=#{username}
+    </select>
+
+    <select id="findUserByName" parameterType="String" resultType="com.lq.mybatis.po.User">
+        select * from user where username=#{username}
+    </select>
+
+    <select id="queryUserVyParams2"
+            resultType="com.lq.mybatis.po.User"
+            prepareStatement="prepareStatement">
+        select * from user where id = #{id}
+    </select>
+</mapper>

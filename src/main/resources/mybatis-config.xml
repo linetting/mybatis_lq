@@ -11,4 +11,7 @@
             </dataSource>
         </environment>
     </environments>
+    <mappers>
+        <mapper resource="phase01/UsersMapper.xml" />
+    </mappers>
 </configuration>

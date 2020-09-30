@@ -30,4 +30,8 @@ public class MappedStatement {
     public String getStatementType() {
         return null;
     }
+
+    public SqlSource getSqlSource() {
+        return null;
+    }
 }

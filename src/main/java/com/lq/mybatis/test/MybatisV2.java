@@ -2,6 +2,7 @@ package com.lq.mybatis.test;
 
 import com.lq.mybatis.framework.config.Configuration;
 import com.lq.mybatis.framework.config.MappedStatement;
+import com.lq.mybatis.framework.sqlsource.BoundSql;
 import com.lq.mybatis.framework.sqlsource.SqlSource;
 import com.lq.mybatis.po.User;
 import org.dom4j.Document;
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.sun.org.apache.bcel.internal.util.SecuritySupport.getResourceAsStream;
 
 public class MybatisV2 {
 
@@ -49,18 +49,25 @@ public class MybatisV2 {
         parseConfiguration(document.getRootElement());
     }
 
+    private InputStream getResourceAsStream(String location) {
+        return this.getClass().getClassLoader().getResourceAsStream(location);
+    }
+
     //这里的入参为Objtct，Object包含对象和Map的任意封装
-    private <T> List<T> selectList(String statementId, Map<String, Object> param) {
+    private <T> List<T> selectList(String statementId, Object param) {
         List<T> results = new ArrayList<T>();
         Connection connection = null;
         Statement statement = null;
         ResultSet rs = null;
         try {
-            //获取
+            //获取statement 相关的信息MappedStatement
             MappedStatement mappedStatement = configuration.getMappedStatementById(statementId);
-
             //连接的获取
             connection = getConnection();
+            //TODO SQL的获取（SqlSource和SqlNode的处理流程）
+            SqlSource sqlSource = mappedStatement.getSqlSource();
+            //出发sqlSource和SqlNode
+            BoundSql boundSql = sqlSource.getBoundSql(param);
             //SQL的获取
             String sql = getSql(mappedStatement);
             //创建statement
