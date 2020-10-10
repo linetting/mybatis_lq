@@ -1,0 +1,17 @@
+读已提交，造成两次读的内容可能不同；
+
+可重复读；
+
+二。mysql的事务：
+解决数据更新丢失的问题
+1.解决方案LBCC（）基于锁的并发控制，让操作串行化执行；
+2.MVCC（multi version concurrency control）基于版本的；
+2）readview方式；select语句执行完毕之后，readview生效；一个select对应一个readview；
+小于最小的，大于最大的，对当前事务没有影响；通过readview来对每次提交生成的快照进行判断；
+select不考虑当前的事务；RC、RR；readview在源码中是个类，类中有个数组叫做mids（有序的），数组中存放的是事务id；
+3）.RC事务隔离级别
+    读已提交，当前事务可以读到其他事务已经提交的结果；
+    在当前事务中提交select查询，会生成一个readview，可控制哪些可以读，哪些不能读；如果同一个select再次执行，会再次生成readview；
+4）.RR事务隔离级别
+    可重复读，当前事务中select语句可多次执行得到的结果是相同的，无论其他事务是否提交；
+    实现方案：在当前事务中执行select查询，就会生成一个readview；同一个事务中，再次查询依然使用相同的一个readview；
